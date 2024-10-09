@@ -1,6 +1,6 @@
 export function showproject(project) {
     // * Get content div
-    const cont = document.getElementById('content')
+    const cont = document.getElementById('content');
     const content = cont;
 
     // * Project name header

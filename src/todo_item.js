@@ -6,6 +6,7 @@ export class TodoItem {
         this.priority = priority;
     }
 
+    
     // ? These may not be needed if always saving within the project object. Might delete
     // info() {
     //     console.log(`TODO: ${this.title} ## Description: ${this.description} ## Due Date: ${this.due_date} ## Priority: ${this.priority}`);

@@ -9,7 +9,7 @@ export function showproject(project) {
     h2.appendChild(h2text);
     content.appendChild(h2);
 
-    // * create list for todos
+    // * show list of todos
     const ul = document.createElement('ul');
     content.appendChild(ul);
     project.todo_list.forEach(todo => {

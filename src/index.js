@@ -6,19 +6,21 @@ import { showproject } from "./display";
 // const loadedProject = Project.load('TEST');
 // showproject(loadedProject);
 
-const newproject = new Project('Number 2');
-newproject.save();
-
 // * submit todo item
 document.getElementById('saveBtn').addEventListener('click', () => {
+    const content = document.getElementById('content');
+    // const projectdiv = document.getElementById('projectdiv');
+    const project_name = content.getAttribute('project-name');
+    const project = Project.load(project_name);
     const name = document.getElementById('todo_name').value;
     const description = document.getElementById('todo_description').value;
     const date = document.getElementById('todo_date').value;
     const priority = document.getElementById('todo_priority').value;
     const newitem = new TodoItem(name, description, date, priority);
-    loadedProject.addToArray(newitem);
-    loadedProject.save();
-    const reloadproject = Project.load('TEST');
+    project.addToArray(newitem);
+    project.save();
+    content.innerHTML = '';
+    const reloadproject = Project.load(project_name);
     showproject(reloadproject);
     alert('todo saved!');
 });
@@ -35,6 +37,10 @@ for (let i = 0; i < localStorage.length; i++) {
     // * load on click
     btn.addEventListener('click', () => {
         const content = document.getElementById('content');
+        // const projectdiv = document.createElement('div');
+        // projectdiv.setAttribute('id', 'projectdiv');
+        content.setAttribute('project-name', `${key}`);
+        // document.body.appendChild(projectdiv);
         content.innerHTML = '';
         const loadProject = Project.load(`${key}`);
         showproject(loadProject);

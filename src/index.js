@@ -3,10 +3,13 @@ import { TodoItem } from "./todo_item";
 import { Project } from "./project";
 import { showproject } from "./display";
 
-const loadedProject = Project.load('TEST');
-showproject(loadedProject);
-console.log(loadedProject);
+// const loadedProject = Project.load('TEST');
+// showproject(loadedProject);
 
+const newproject = new Project('Number 2');
+newproject.save();
+
+// * submit todo item
 document.getElementById('saveBtn').addEventListener('click', () => {
     const name = document.getElementById('todo_name').value;
     const description = document.getElementById('todo_description').value;
@@ -15,24 +18,25 @@ document.getElementById('saveBtn').addEventListener('click', () => {
     const newitem = new TodoItem(name, description, date, priority);
     loadedProject.addToArray(newitem);
     loadedProject.save();
-    localStorage.setItem('TEST', JSON.stringify(loadedProject));
     const reloadproject = Project.load('TEST');
     showproject(reloadproject);
     alert('todo saved!');
 });
 
+// * This makes a button for each project
+for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    const btn = document.createElement('button');
+    const btn_text = document.createTextNode(`${key}`);
+    btn.appendChild(btn_text);
+    const project_btn = document.getElementById('project_btn');
+    project_btn.appendChild(btn);
 
-// ! This is to test the logic. to be remove later. 
-// let item = new TodoItem('Milk Cow', 'Grab a teet and pull', "2024-11-25", 'high');
-// // let otheritem = new TodoItem('Collect Eggs', 'Pick up the eggs', "2024-07-23", 'medium');
-
-// project.addToArray(item);
-// // project.addToArray(otheritem);
-// project.save();
-
-// const loadedProject = Project.load('TEST');
-// // * to display the project. 
-// showproject(loadedProject);
-
-// ! This is to test the logic. to be remove later. 
-
+    // * load on click
+    btn.addEventListener('click', () => {
+        const content = document.getElementById('content');
+        content.innerHTML = '';
+        const loadProject = Project.load(`${key}`);
+        showproject(loadProject);
+    });
+};

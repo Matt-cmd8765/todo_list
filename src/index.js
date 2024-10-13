@@ -1,15 +1,14 @@
 import "./style.css";
 import { TodoItem } from "./todo_item";
 import { Project } from "./project";
-import { showproject } from "./display";
+import { showproject, makeProjectBtn } from "./display";
 
-// const loadedProject = Project.load('TEST');
-// showproject(loadedProject);
+// * Create a list of projects
+makeProjectBtn();
 
 // * submit todo item
 document.getElementById('saveBtn').addEventListener('click', () => {
     const content = document.getElementById('content');
-    // const projectdiv = document.getElementById('projectdiv');
     const project_name = content.getAttribute('project-name');
     const project = Project.load(project_name);
     const name = document.getElementById('todo_name').value;
@@ -20,29 +19,7 @@ document.getElementById('saveBtn').addEventListener('click', () => {
     project.addToArray(newitem);
     project.save();
     content.innerHTML = '';
-    const reloadproject = Project.load(project_name);
-    showproject(reloadproject);
+    const loadproject = Project.load(project_name);
+    showproject(loadproject);
     alert('todo saved!');
 });
-
-// * This makes a button for each project
-for (let i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    const btn = document.createElement('button');
-    const btn_text = document.createTextNode(`${key}`);
-    btn.appendChild(btn_text);
-    const project_btn = document.getElementById('project_btn');
-    project_btn.appendChild(btn);
-
-    // * load on click
-    btn.addEventListener('click', () => {
-        const content = document.getElementById('content');
-        // const projectdiv = document.createElement('div');
-        // projectdiv.setAttribute('id', 'projectdiv');
-        content.setAttribute('project-name', `${key}`);
-        // document.body.appendChild(projectdiv);
-        content.innerHTML = '';
-        const loadProject = Project.load(`${key}`);
-        showproject(loadProject);
-    });
-};

@@ -1,15 +1,44 @@
-export function showproject(project) {
-    // * Get content div
-    const cont = document.getElementById('content');
-    const content = cont;
+import { Project } from "./project";
 
+// ! Divs to be referenced for all functions in this file
+const content = document.getElementById('content');
+const enter_todo = document.getElementById('enter_todo');
+
+export function showproject(project) {
     // * Project name header
     const h2 = document.createElement('h2');
     const h2text = document.createTextNode(`Project Name: ${project.name}`);
     h2.appendChild(h2text);
     content.appendChild(h2);
 
-    // * show list of todos
+    todolist(project);
+}
+
+export function makeProjectBtn() {
+    // * This makes a button for each project
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        const btn = document.createElement('button');
+        const btn_text = document.createTextNode(`${key}`);
+        btn.appendChild(btn_text);
+        const project_btn = document.getElementById('project_btn');
+        project_btn.appendChild(btn);
+
+        // * load on click
+        btn.addEventListener('click', () => {
+            content.setAttribute('project-name', `${key}`);
+            content.innerHTML = '';
+            enter_todo.innerHTML = '';
+            const loadProject = Project.load(`${key}`);
+            enterToDo();
+            saveBtn();
+            showproject(loadProject);
+        });
+    };
+}
+
+// * show list of todos
+function todolist(project) {
     const ul = document.createElement('ul');
     content.appendChild(ul);
     project.todo_list.forEach(todo => {
@@ -32,4 +61,42 @@ export function showproject(project) {
         li.appendChild(ul_todo_content);
         ul.appendChild(li);
     });
+}
+
+function enterToDo() {
+    // * Create inputs
+    const todo = document.createElement('input');
+    const description = document.createElement('input');
+    const date = document.createElement('input');
+    const priority = document.createElement('input');
+
+    // * set attributes
+    todo.setAttribute('type', 'text');  
+    todo.setAttribute('id', 'todo_item');
+    todo.setAttribute('placeholder', 'Enter ToDo');
+
+    description.setAttribute('type', 'textarea');
+    description.setAttribute('id', 'todo_description');
+    description.setAttribute('placeholder', 'Enter Description');
+
+    date.setAttribute('type', 'date');
+    date.setAttribute('id', 'todo_date');
+
+    priority.setAttribute('type', 'number');
+    priority.setAttribute('id', 'todo_priority');
+    priority.setAttribute('placeholder', 'Enter priority');
+
+    // * append to div
+    enter_todo.appendChild(todo);
+    enter_todo.appendChild(description);
+    enter_todo.appendChild(date);
+    enter_todo.appendChild(priority);
+}
+
+function saveBtn() {
+    const saveBtn = document.createElement('button');
+    saveBtn.setAttribute('id', 'saveBtn');
+    let saveBtntext = document.createTextNode('Save ToDo');
+    saveBtn.appendChild(saveBtntext);
+    enter_todo.appendChild(saveBtn);
 }

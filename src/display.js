@@ -1,4 +1,5 @@
 import { Project } from "./project";
+import { TodoItem } from "./todo_item";
 
 // ! Divs to be referenced for all functions in this file
 const content = document.getElementById('content');
@@ -10,7 +11,6 @@ export function showproject(project) {
     const h2text = document.createTextNode(`Project Name: ${project.name}`);
     h2.appendChild(h2text);
     content.appendChild(h2);
-
     todolist(project);
 }
 
@@ -32,10 +32,22 @@ export function makeProjectBtn() {
             const loadProject = Project.load(`${key}`);
             enterToDo();
             saveBtn();
+            savelistener();
             showproject(loadProject);
         });
     };
 }
+
+export function newProject() {
+    const new_project_btn = document.getElementById('new_project_btn');
+    const new_project = document.getElementById('new_project');
+    new_project_btn.addEventListener('click', () => {
+        const new_project_name = document.createElement('input');
+        new_project_name.setAttribute('type', 'text');
+        new_project_name.setAttribute('placeholder', 'Enter Project Name');
+        new_project.appendChild(new_project_name);
+    });
+};
 
 // * show list of todos
 function todolist(project) {
@@ -99,4 +111,24 @@ function saveBtn() {
     let saveBtntext = document.createTextNode('Save ToDo');
     saveBtn.appendChild(saveBtntext);
     enter_todo.appendChild(saveBtn);
+}
+
+// ! rename this
+function savelistener() {
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        const content = document.getElementById('content');
+        const project_name = content.getAttribute('project-name');
+        const project = Project.load(project_name);
+        const name = document.getElementById('todo_item').value;
+        const description = document.getElementById('todo_description').value;
+        const date = document.getElementById('todo_date').value;
+        const priority = document.getElementById('todo_priority').value;
+        const newitem = new TodoItem(name, description, date, priority);
+        project.addToArray(newitem);
+        project.save();
+        content.innerHTML = '';
+        const loadproject = Project.load(project_name);
+        showproject(loadproject);
+        alert('todo saved!');
+    });
 }

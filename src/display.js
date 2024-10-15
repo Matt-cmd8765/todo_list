@@ -1,10 +1,11 @@
 import { Project } from "./project";
-import { TodoItem } from "./todo_item";
+import { savetodo } from "./storage";
 
 // ! Divs to be referenced for all functions in this file
 const content = document.getElementById('content');
 const enter_todo = document.getElementById('enter_todo');
 
+// * Display the project and todo lists.
 export function showproject(project) {
     // * Project name header
     const h2 = document.createElement('h2');
@@ -14,8 +15,8 @@ export function showproject(project) {
     todolist(project);
 }
 
+// * This makes a button for each project
 export function makeProjectBtn() {
-    // * This makes a button for each project
     for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
         const btn = document.createElement('button');
@@ -32,7 +33,7 @@ export function makeProjectBtn() {
             const loadProject = Project.load(`${key}`);
             enterToDo();
             saveBtn();
-            savelistener();
+            savetodo();
             showproject(loadProject);
         });
     };
@@ -111,24 +112,4 @@ function saveBtn() {
     let saveBtntext = document.createTextNode('Save ToDo');
     saveBtn.appendChild(saveBtntext);
     enter_todo.appendChild(saveBtn);
-}
-
-// ! rename this
-function savelistener() {
-    document.getElementById('saveBtn').addEventListener('click', () => {
-        const content = document.getElementById('content');
-        const project_name = content.getAttribute('project-name');
-        const project = Project.load(project_name);
-        const name = document.getElementById('todo_item').value;
-        const description = document.getElementById('todo_description').value;
-        const date = document.getElementById('todo_date').value;
-        const priority = document.getElementById('todo_priority').value;
-        const newitem = new TodoItem(name, description, date, priority);
-        project.addToArray(newitem);
-        project.save();
-        content.innerHTML = '';
-        const loadproject = Project.load(project_name);
-        showproject(loadproject);
-        alert('todo saved!');
-    });
 }

@@ -14,7 +14,7 @@ export class Project {
     save() {
         localStorage.setItem(this.name, JSON.stringify(this));
     }
-
+    
     // * to load the objects
     static load(name) {
         const data = localStorage.getItem(name);

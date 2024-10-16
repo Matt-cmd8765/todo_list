@@ -47,3 +47,11 @@ export function createproject() {
         });
     });
 }
+
+export function delete_the_project(key) {
+    const btn = document.getElementById('delete_project_btn');
+    btn.addEventListener('click', () => {
+        localStorage.removeItem(key);
+        alert('Project Deleted');
+    })
+}

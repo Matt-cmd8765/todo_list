@@ -48,6 +48,7 @@ export function makeProjectBtn() {
             saveBtn();
             savetodo();
             showproject(loadProject);
+            console.log(loadProject);
         });
     };
 }
@@ -65,38 +66,42 @@ export function newProject() {
 
 // * show list of todos
 function todolist(project) {
+
+    project.todo_list.forEach(logtodos);
+};
+
+function logtodos(todo, index) {
     const ul = document.createElement('ul');
     content.appendChild(ul);
-    project.todo_list.forEach(todo => {
-        const li = document.createElement('li');
-        const litext = document.createTextNode(`${todo.title}`);
-        
-        const ul_todo_content = document.createElement('ul');
-        const li_description = document.createElement('li');
-        const li_date = document.createElement('li');
-        const li_priority = document.createElement('li');
-        const delete_btn = document.createElement('button');
-        const li_description_text = document.createTextNode(`${todo.description}`);
-        const li_date_text = document.createTextNode(`${todo.due_date}`);
-        const li_priority_text = document.createTextNode(`${todo.priority}`);
-        const delete_btn_text = document.createTextNode('Delete ToDo');
-        li_description.appendChild(li_description_text);
-        li_date.appendChild(li_date_text);
-        li_priority.appendChild(li_priority_text);
-        ul_todo_content.appendChild(li_description);
-        ul_todo_content.appendChild(li_date);
-        ul_todo_content.appendChild(li_priority);
-        delete_btn.appendChild(delete_btn_text);
-        li.appendChild(litext);
-        li.appendChild(ul_todo_content);
-        ul.appendChild(li);
-    });
-}
+    const li = document.createElement('li');
+    const litext = document.createTextNode(`${todo.title}`);
+    const ul_todo_content = document.createElement('ul');
+    const li_description = document.createElement('li');
+    const li_date = document.createElement('li');
+    const li_priority = document.createElement('li');
+    const delete_btn = document.createElement('button');
+    const li_description_text = document.createTextNode(`${todo.description}`);
+    const li_date_text = document.createTextNode(`${todo.due_date}`);
+    const li_priority_text = document.createTextNode(`${todo.priority}`);
+    const delete_btn_text = document.createTextNode('Delete ToDo');
+    li_description.appendChild(li_description_text);
+    li_date.appendChild(li_date_text);
+    li_priority.appendChild(li_priority_text);
+    delete_btn.appendChild(delete_btn_text);
+    ul_todo_content.appendChild(li_description);
+    ul_todo_content.appendChild(li_date);
+    ul_todo_content.appendChild(li_priority);
+    ul_todo_content.appendChild(delete_btn);
+    li.appendChild(litext);
+    li.appendChild(ul_todo_content);
+    ul.appendChild(li);
+    console.log(`${index}, Title: ${todo.title}`);
+    };
 
 function enterToDo() {
     // * Create inputs
     const todo = document.createElement('input');
-    const description = document.createElement('input');
+    const description = document.createElement('textarea');
     const date = document.createElement('input');
     const priority = document.createElement('input');
 
@@ -105,7 +110,6 @@ function enterToDo() {
     todo.setAttribute('id', 'todo_item');
     todo.setAttribute('placeholder', 'Enter ToDo');
 
-    description.setAttribute('type', 'textarea');
     description.setAttribute('id', 'todo_description');
     description.setAttribute('placeholder', 'Enter Description');
 

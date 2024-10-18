@@ -1,6 +1,5 @@
 import { Project } from "./project";
 import { savetodo } from "./storage";
-import { delete_the_project } from "./storage";
 
 // ! Divs to be referenced for all functions in this file
 const content = document.getElementById('content');
@@ -8,25 +7,44 @@ const enter_todo = document.getElementById('enter_todo');
 
 // * Display the project and todo lists.
 export function showproject(project) {
-    // * Project name header
+    const content = document.getElementById('content');
+    content.innerHTML = ''; // Clear previous content
+
+    // Project name header
     const h2 = document.createElement('h2');
     const h2text = document.createTextNode(`Project Name: ${project.name}`);
     h2.appendChild(h2text);
     content.appendChild(h2);
 
-    // * Make delete button
-    const delete_project = document.createElement('button');
-    const delete_project_text = document.createTextNode(`Delete ${project.name}`);
-    delete_project.appendChild(delete_project_text);
-    delete_project.setAttribute('id', 'delete_project_btn');
-    content.appendChild(delete_project);
+    // Make delete project button
+    const deleteProjectBtn = document.createElement('button');
+    const deleteProjectText = document.createTextNode(`Delete ${project.name}`);
+    deleteProjectBtn.appendChild(deleteProjectText);
+    deleteProjectBtn.setAttribute('id', 'delete_project_btn');
+    deleteProjectBtn.addEventListener('click', () => {
+        localStorage.removeItem(project.name);
+        alert(`Project ${project.name} deleted!`);
+        content.innerHTML = ''; // Clear content after deletion
+    });
+    content.appendChild(deleteProjectBtn);
 
-    // * Event listener for delete button
-    delete_the_project(`${project.name}`);
+    // Create todo items with delete buttons
+    project.todo_list.forEach((item, index) => {
+        let itemDiv = document.createElement('div');
+        itemDiv.textContent = `${item.title} - ${item.description} - ${item.due_date} - ${item.priority}`;
+        
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+            project.deleteItem(index);
+            showproject(project); // Re-render the project to reflect deletion
+        });
 
-    // * load todo list
-    todolist(project);
+        itemDiv.appendChild(deleteButton);
+        content.appendChild(itemDiv);
+    });
 }
+
 
 // * This makes a button for each project
 export function makeProjectBtn() {
@@ -48,7 +66,6 @@ export function makeProjectBtn() {
             saveBtn();
             savetodo();
             showproject(loadProject);
-            console.log(loadProject);
         });
     };
 }
@@ -63,40 +80,6 @@ export function newProject() {
         new_project.appendChild(new_project_name);
     });
 };
-
-// * show list of todos
-function todolist(project) {
-
-    project.todo_list.forEach(logtodos);
-};
-
-function logtodos(todo, index) {
-    const ul = document.createElement('ul');
-    content.appendChild(ul);
-    const li = document.createElement('li');
-    const litext = document.createTextNode(`${todo.title}`);
-    const ul_todo_content = document.createElement('ul');
-    const li_description = document.createElement('li');
-    const li_date = document.createElement('li');
-    const li_priority = document.createElement('li');
-    const delete_btn = document.createElement('button');
-    const li_description_text = document.createTextNode(`${todo.description}`);
-    const li_date_text = document.createTextNode(`${todo.due_date}`);
-    const li_priority_text = document.createTextNode(`${todo.priority}`);
-    const delete_btn_text = document.createTextNode('Delete ToDo');
-    li_description.appendChild(li_description_text);
-    li_date.appendChild(li_date_text);
-    li_priority.appendChild(li_priority_text);
-    delete_btn.appendChild(delete_btn_text);
-    ul_todo_content.appendChild(li_description);
-    ul_todo_content.appendChild(li_date);
-    ul_todo_content.appendChild(li_priority);
-    ul_todo_content.appendChild(delete_btn);
-    li.appendChild(litext);
-    li.appendChild(ul_todo_content);
-    ul.appendChild(li);
-    console.log(`${index}, Title: ${todo.title}`);
-    };
 
 function enterToDo() {
     // * Create inputs

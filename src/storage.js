@@ -1,6 +1,8 @@
 import { TodoItem } from "./todo_item";
 import { Project } from "./project";
+import { showproject } from "./display";
 
+// ! MAYBE ADD PROJECT NAME TO TODO OBJECT THEN YOU CAN CALL IT IN LOG TODOS
 export function savetodo() {
     document.getElementById('saveBtn').addEventListener('click', () => {
         const content = document.getElementById('content');
@@ -40,7 +42,6 @@ export function createproject() {
         new_project.appendChild(create_project_btn);
 
         create_project_btn.addEventListener('click', () => {
-            console.log('suces');
             const new_project_name = document.getElementById('new_project_name').value;
             const project_object = new Project(new_project_name);
             project_object.save();
@@ -53,5 +54,19 @@ export function delete_the_project(key) {
     btn.addEventListener('click', () => {
         localStorage.removeItem(key);
         alert('Project Deleted');
-    })
-}
+    });
+};
+
+// // ! NOT COMPLETE 
+// export function delete_todo(project) {
+//     const current_project = Project.load(project);
+//     console.log(`Delete todo project load: ${current_project}`)
+//     const btn = document.getElementById('to_do_delete');
+//     let index = btn.getAttribute('index');
+//     let index_num = Number(index);
+//     console.log(`array is ${JSON.stringify(current_project.todo_list)}`);
+//     console.log(`index_num is ${index_num}`);
+//     current_project.todo_list.splice(index_num, 1);
+//     alert('ToDo Deleted!');
+//     showproject(project);
+// };

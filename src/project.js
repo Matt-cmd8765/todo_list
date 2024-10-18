@@ -15,6 +15,11 @@ export class Project {
         localStorage.setItem(this.name, JSON.stringify(this));
     }
     
+    deleteItem(index) {
+        this.todo_list.splice(index, 1);
+        this.save();
+    }
+
     // * to load the objects
     static load(name) {
         const data = localStorage.getItem(name);

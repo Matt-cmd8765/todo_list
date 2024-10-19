@@ -25,6 +25,12 @@ export function showproject(project) {
         localStorage.removeItem(project.name);
         alert(`Project ${project.name} deleted!`);
         content.innerHTML = ''; // Clear content after deletion
+        const enter_todo_div = document.getElementById('enter_todo');
+        const project_btn_div = document.getElementById('project_btn');
+        enter_todo_div.innerHTML = '';
+        console.log(enter_todo_div);
+        project_btn_div.innerHTML = '';
+        makeProjectBtn();
     });
     content.appendChild(deleteProjectBtn);
 
@@ -68,7 +74,7 @@ export function makeProjectBtn() {
             showproject(loadProject);
         });
     };
-}
+};
 
 export function newProject() {
     const new_project_btn = document.getElementById('new_project_btn');
@@ -81,7 +87,7 @@ export function newProject() {
     });
 };
 
-function enterToDo() {
+export function enterToDo() {
     // * Create inputs
     const todo = document.createElement('input');
     const description = document.createElement('textarea');

@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1, h2 {
+  color: #4CAF50;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#content, #project_btn, #enter_todo {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#projectdiv div {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #e8f5e9;
+  border: 1px solid #4CAF50;
+  border-radius: 5px;
+}
+
+#projectdiv button {
+  background-color: #f44336;
+}
+
+#projectdiv button:hover {
+  background-color: #e53935;
+}
+
+#enter_todo {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#enter_todo input,
+#enter_todo textarea {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+#enter_todo input[type="text"],
+#enter_todo input[type="date"],
+#enter_todo input[type="number"],
+#enter_todo textarea {
+  font-size: 16px;
+}
+
+#enter_todo input[type="text"]::placeholder,
+#enter_todo textarea::placeholder,
+#enter_todo input[type="number"]::placeholder {
+  color: #999;
+}

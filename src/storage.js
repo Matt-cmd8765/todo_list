@@ -1,8 +1,7 @@
 import { TodoItem } from "./todo_item";
 import { Project } from "./project";
-import { showproject } from "./display";
+import { showproject, makeProjectBtn, enterToDo } from "./display";
 
-// ! MAYBE ADD PROJECT NAME TO TODO OBJECT THEN YOU CAN CALL IT IN LOG TODOS
 export function savetodo() {
     document.getElementById('saveBtn').addEventListener('click', () => {
         const content = document.getElementById('content');
@@ -44,29 +43,17 @@ export function createproject() {
         create_project_btn.addEventListener('click', () => {
             const new_project_name = document.getElementById('new_project_name').value;
             const project_object = new Project(new_project_name);
+            const project_btn_div = document.getElementById('project_btn');
+            const enter_todo_div = document.getElementById('enter_todo');
             project_object.save();
+            const project_reload = Project.load(new_project_name);
+            showproject(project_reload);
+            project_btn_div.innerHTML = '';
+            makeProjectBtn();
+            enter_todo_div.innerHTML = '';
+            enterToDo();
+            new_project.innerHTML = '';
+            alert('Project Created!');
         });
     });
 }
-
-export function delete_the_project(key) {
-    const btn = document.getElementById('delete_project_btn');
-    btn.addEventListener('click', () => {
-        localStorage.removeItem(key);
-        alert('Project Deleted');
-    });
-};
-
-// // ! NOT COMPLETE 
-// export function delete_todo(project) {
-//     const current_project = Project.load(project);
-//     console.log(`Delete todo project load: ${current_project}`)
-//     const btn = document.getElementById('to_do_delete');
-//     let index = btn.getAttribute('index');
-//     let index_num = Number(index);
-//     console.log(`array is ${JSON.stringify(current_project.todo_list)}`);
-//     console.log(`index_num is ${index_num}`);
-//     current_project.todo_list.splice(index_num, 1);
-//     alert('ToDo Deleted!');
-//     showproject(project);
-// };
